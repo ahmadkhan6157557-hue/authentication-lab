@@ -1,0 +1,89 @@
+🔐 Lab: Username Enumeration via Different Responses
+📖 What This Lab Is
+
+This lab demonstrates a common authentication vulnerability called username enumeration. Username enumeration occurs
+when a web application reveals whether a username exists in the system through different responses during login attempts.
+In this lab, the login page responds differently depending on whether the username is valid or not. If an attacker
+submits an invalid username, the application returns a message such as “Invalid username.” However, if the username
+exists but the password is incorrect, the application returns “Incorrect password.”
+These different responses allow attackers to determine which usernames are valid. Once a valid username is discovered,
+an attacker can perform a password brute-force attack to gain unauthorized access to the account.
+The objective of this lab is to identify a valid username and then brute-force the password to successfully log in to the 
+user account.
+
+
+⚙️ How This Vulnerability Works
+The vulnerability occurs because the application leaks information through different error messages.
+The process works like this:
+The attacker sends login requests using different usernames.
+The server responds differently depending on whether the username exists.
+Invalid usernames produce the response “Invalid username.”
+Valid usernames produce the response “Incorrect password.”
+By comparing responses, attackers can identify which username exists in the system.
+After finding a valid username, attackers try multiple passwords until the correct one is discovered.
+
+
+🛠️ How to Solve the Lab
+
+Step 1 — Capture Login Request
+Open the lab login page.
+Enter an invalid username and password.
+Capture the request using Burp Suite Proxy.
+
+Step 2 — Send Request to Intruder
+Go to Proxy → HTTP History.
+Find the POST /login request.
+Send it to Burp Intruder.
+
+Step 3 — Enumerate Valid Username
+Highlight the username parameter.
+Set it as the payload position.
+Example:
+username=§test-user§&password=test
+Select Sniper attack type.
+Use the candidate usernames wordlist as payload.
+Start the attack.
+After the attack finishes:
+Look at the Length column in results.
+One response will be different because it returns “Incorrect password.”
+That username is valid.
+
+Step 4 — Brute-Force the Password
+Replace the username with the identified valid username.
+Set payload position on the password parameter.
+Example:
+username=valid-user&password=§test-password§
+Load the candidate password wordlist.
+Start the attack.
+Check the results:
+Most responses return 200 status code.
+One response returns 302 redirect.
+This indicates a successful login.
+
+Step 5 — Log In
+Use the identified:
+Valid Username
+Correct Password
+Log in to access the user account page and solve the lab.
+
+🐍 Where Python Scripts Can Be Used
+Python scripts can automate parts of this attack instead of using Burp Intruder.
+They can be used for:
+
+1️⃣ Username Enumeration
+A Python script can send login requests using a username wordlist and check the response message or length to identify valid usernames.
+
+2️⃣ Password Brute Force
+After finding a valid username, another Python script can try multiple passwords from a password wordlist until a successful login response is detected.
+
+3️⃣ Response Analysis
+
+Python can automatically analyze:
+response length
+error messages
+HTTP status codes
+This helps identify anomalies that indicate valid credentials.
+Libraries commonly used include:
+requests
+threading
+wordlists
