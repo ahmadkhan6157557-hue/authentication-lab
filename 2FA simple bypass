@@ -1,0 +1,109 @@
+(no 1 ) : Lab Introduction
+
+This lab demonstrates a Two-Factor Authentication (2FA) bypass vulnerability in a web application. Two-factor authentication 
+is designed to add an additional security layer during login by requiring users to provide a second verification factor,
+usually a code sent through email, SMS, or an authenticator app. The goal of this lab is to access the victim user's account 
+page without possessing the required 2FA verification code. Even though the attacker already has valid login credentials, the 
+application should not allow account access without completing the second authentication step. However, due to improper access 
+control logic, the application allows users to bypass the 2FA verification stage and directly access the protected account
+page.
+
+(no 2 ) : What Is in This Lab
+
+In this lab, the attacker already knows both the username and password of the victim account. Normally, after entering
+correct credentials, the application should block further access until the user successfully enters the 2FA verification code.
+The application sends the verification code to the user's email, which acts as the second authentication factor. However, the
+web application fails to properly enforce this verification step on the backend. Because of this flaw, an attacker can skip 
+the verification process by directly navigating to a protected URL such as the account page.
+
+(no 3 ) : What Is the Vulnerability in This Lab
+
+The vulnerability present in this lab is called a 2FA bypass due to improper authentication state validation. The web 
+application does not correctly verify whether the user has completed the second authentication step before granting access
+to sensitive pages. Instead of validating the 2FA status on the server side, the application only relies on the client-side
+navigation flow. This means that if a user manually changes the URL to the account page after submitting valid login 
+credentials, the server still allows access even though the 2FA process has not been completed.
+
+(no 4 ) : How to Solve the Lab
+
+To solve the lab, first log in using the provided credentials for the normal user account. After logging in, the 
+application will ask for a 2FA verification code sent via email. The lab provides an email client to view the code. Once
+logged in successfully, navigate to the account page and note the URL of that page. Then log out of the account and log in
+again, this time using the victim’s credentials. When the application asks for the verification code, instead of entering
+the code, manually modify the URL in the browser to access the account page directly (for example /my-account). Because the
+server does not validate the 2FA state properly, the page loads successfully and the lab is solved.
+
+(no 5 ) : Why This Vulnerability Exists and Why It Is Dangerous
+
+This vulnerability exists because the application incorrectly assumes that users will follow the intended authentication 
+flow. Instead of verifying on the server whether the 2FA step has been completed, the application relies on the frontend
+navigation process. This is dangerous because attackers can easily manipulate URLs or requests. If an attacker already has 
+stolen or leaked credentials, bypassing 2FA removes the final security barrier protecting user accounts. In real-world 
+applications, this could allow attackers to gain full access to user data, financial information, personal messages, or 
+administrative functions.
+
+(no 6 ) : How Dangerous This Vulnerability Is
+
+A 2FA bypass vulnerability is considered high severity because two-factor authentication is specifically designed to 
+protect accounts even when passwords are compromised. If this mechanism fails, attackers can gain access to accounts with 
+only the username and password. In applications such as banking platforms, cloud services, or email systems, this 
+vulnerability could lead to account takeover, financial theft, data breaches, and identity fraud.
+
+(no 7 ) : What Happens If This Vulnerability Is Not Fixed
+
+If this vulnerability is not fixed, attackers who obtain user credentials through phishing, credential stuffing, or data 
+leaks can easily bypass the additional security layer. This makes the entire two-factor authentication system ineffective. 
+Organizations relying on this system would falsely assume their users are protected while attackers could still gain 
+unauthorized access to sensitive accounts.
+
+(no 8 ) : Other Ways to Exploit This Vulnerability
+
+Attackers may exploit this vulnerability in multiple ways. Instead of manually changing the URL in a browser, they can
+intercept requests using tools such as proxy tools and directly send requests to protected endpoints like the account page.
+Automated scripts could also be used to test whether protected pages can be accessed without completing the 2FA process. 
+If the application fails to verify authentication state properly, attackers can systematically bypass the verification
+stage and gain access to restricted resources.
+
+(no 9 ) : Using Python to Test or Exploit This Vulnerability
+
+Python can be used to automate the exploitation process by sending HTTP requests directly to the web application. After
+submitting valid login credentials, the script can attempt to access the protected account endpoint without completing
+the 2FA verification step. If the server allows access, the script confirms the presence of the vulnerability. Libraries
+such as HTTP request libraries can be used to maintain sessions and send authenticated requests automatically. This allows
+security researchers to test whether applications enforce the 2FA verification step correctly.
+
+(no 10 ) : Can a Normal Person Exploit This Vulnerability
+
+Yes, even a person with limited technical knowledge can exploit this vulnerability if they understand basic web navigation 
+and URL manipulation. Since the attack only requires changing the URL or sending a direct request to a protected page, 
+advanced hacking skills are not necessary. This makes the vulnerability even more dangerous because attackers do not 
+require sophisticated tools or deep programming knowledge to exploit it.
+
+(no 11 ) : over all view : conclusion : 
+
+This lab demonstrates how improper authentication logic can completely break the purpose of two-factor authentication.
+Even though 2FA is intended to provide stronger security, failing to validate the authentication state on the server 
+side can allow attackers to bypass the entire process. Developers must ensure that every protected endpoint verifies
+whether the user has successfully completed all authentication steps before granting access.
+
+(no 12 ) : conclusions 
+
+🔐 This lab demonstrates how weak authentication logic can completely break the purpose of Two-Factor Authentication (2FA).
+
+⚠️ Even when a password is correct, the system must strictly verify the second authentication factor.
+
+🧠 The vulnerability occurs because the server does not properly validate whether the 2FA step is completed.
+
+🌐 Attackers can bypass security simply by directly accessing protected URLs such as /my-account.
+
+🛠 Security testing tools like Burp Suite help researchers analyze authentication flows and identify such flaws.
+
+🐍 Automated testing can also be performed using scripts written in Python.
+
+🚨 This vulnerability is considered high risk because it can lead to full account takeover.
+
+💻 If exploited in real-world applications, attackers could access sensitive personal or financial data.
+
+🛡 Developers must ensure that authentication checks are always enforced on the server side.
+
+📚 Overall, this lab highlights the importance of properly implementing and validating multi-layer security mechanisms.
