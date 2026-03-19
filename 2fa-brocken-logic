@@ -1,0 +1,60 @@
+💣 Payloads Used
+The main payload in this lab is the MFA (2FA) code brute-force list.
+Since most labs use a 4-digit numeric code, your payload looks like:
+
+0000
+0001
+0002
+0003
+...
+9999
+
+This is configured in Burp Intruder:
+Attack type: Sniper (or simple brute-force)
+Payload position: mfa-code
+Parameter manipulated: verify=carlos
+👉 The goal is to try all possible codes until one works.
+
+🧪 What the Payload Actually Does
+
+The payload systematically sends thousands of requests, each with a different 2FA code. Because:
+
+There is no rate limiting
+No account lockout
+No proper session binding
+The server accepts repeated attempts without blocking.
+Eventually:
+One request has the correct code
+Server responds with 302 redirect
+That means authentication success ✅
+
+🚨 Why This Is Dangerous
+
+This vulnerability completely breaks 2FA security. Even though 2FA is supposed to add an extra layer of protection, this flaw allows attackers to
+Bypass authentication
+Access other users’ accounts
+Perform full account takeover
+
+👉 In real-world apps, this would be critical severity (P1 bug)
+
+🔍 Key Security Mistakes
+The application fails because:
+It trusts user input (verify parameter)
+It doesn’t bind 2FA to session/user securely
+It allows unlimited brute-force attempts
+It lacks monitoring or rate limiting
+
+🛡️ How to Prevent This
+To fix this issue, developers should:
+Bind 2FA verification strictly to the logged-in session
+Ignore user-controlled identifiers like verify
+Implement rate limiting for 2FA attempts
+Add account lockouts after multiple failures
+Use secure tokens instead of predictable parameters
+
+🧠 Final Insight
+
+ teaches a powerful lesson:
+👉 Security is not just about adding features (like 2FA), but implementing them correctly.
+
+Even strong protections become useless if the logic behind them is flawed.
