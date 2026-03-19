@@ -1,0 +1,123 @@
+🧪 Broken Brute-Force Protection (IP Block)
+🎯 Objective
+Brute-force the password of user carlos by exploiting flawed brute-force protection logic, then access his account.
+
+
+🔍 Vulnerability Summary
+The application implements IP-based brute-force protection, blocking login attempts after 3 failed tries.
+However, there is a logic flaw:
+The failed login counter resets when a valid login occurs.
+This allows an attacker to bypass the limit by alternating between:
+A valid login (attacker account)
+A brute-force attempt (victim account)
+
+⚠️ Impact
+
+Attackers can perform unlimited password attempts
+Protection mechanism becomes ineffective
+Leads to account takeover
+
+
+4. Payload Setup
+Payload 1 (Usernames)
+wiener
+carlos
+wiener
+carlos
+wiener
+carlos
+...
+
+
+Payload 2 (Passwords)
+peter
+candidate1
+peter
+candidate2
+peter
+candidate3
+...
+
+
+⚙️ Step-by-Step Exploit
+1. Analyze Login Behavior
+
+Intercept login request using Burp Suite
+
+Send multiple incorrect attempts
+
+Observe:
+
+After 3 failures → IP gets blocked
+
+Then:
+
+Log in with valid credentials (wiener:peter)
+
+Block resets ✅
+
+2. Send Request to Intruder
+
+Capture POST /login request
+
+Send to Intruder
+
+3. Configure Attack Type
+
+Attack type: Pitchfork
+
+Positions:
+
+username
+
+password
+
+4. Payload Setup
+Payload 1 (Usernames)
+wiener
+carlos
+wiener
+carlos
+wiener
+carlos
+...
+Payload 2 (Passwords)
+peter
+candidate1
+peter
+candidate2
+peter
+candidate3
+...
+
+👉 Key idea:
+Every brute-force attempt on carlos
+Followed by valid login (wiener:peter) to reset counter
+
+5. Resource Pool Configuration
+Maximum concurrent requests: 1
+carlos
+
+✅ This indicates successful login
+8. Login as Carlos
+Use discovered password
+Access account page
+
+
+🧠 Key Learning
+
+Brute-force protections must:
+Track attempts per account (not just IP)
+Avoid reset logic flaws
+Mixing valid and invalid requests can bypass protections
+
+🔐 Prevention
+
+Implement:
+Account-based lockouts
+CAPTCHA after failed attempts
+Rate limiting per user + IP
+Multi-factor authentication (MFA)
+
+
+
