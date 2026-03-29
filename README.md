@@ -62,4 +62,4 @@ The purpose of this repository is to build practical knowledge of authentication
 **web security and vulnerability testing**.
 
 ## ⚡ Disclaimer
-This repository is created **for educational and ethical security research purposes only**. All testing is performed in authorized lab environments.
+This repository is created **for educational and ethical security research purposes only**. All testing is performed in authorized lab environments.sone of solution will seen soo much easy but just in theory 
