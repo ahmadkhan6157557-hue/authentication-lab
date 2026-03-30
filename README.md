@@ -56,6 +56,7 @@ Some authentication issues covered in this repository include:
 • Password Reset Vulnerabilities  
 • Authentication Logic Flaws  
 • Multi-Factor Authentication Bypass
+two factor bypass
 
 ## 🎯 Purpose
 The purpose of this repository is to build practical knowledge of authentication security and document my learning journey in 
