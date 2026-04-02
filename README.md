@@ -60,7 +60,7 @@ two factor bypass
 
 ## 🎯 Purpose
 The purpose of this repository is to build practical knowledge of authentication security and document my learning journey in 
-**web security and vulnerability testing**.
+**web security and vulnerability testing**.And always update read me .
 
 ## ⚡ Disclaimer
 This repository is created **for educational and ethical security research purposes only**. All testing is performed in authorized lab environments.sone of solution will seen soo much easy but just in theory 
