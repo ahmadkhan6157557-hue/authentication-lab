@@ -55,6 +55,6 @@ Use secure tokens instead of predictable parameters
 🧠 Final Insight
 
  teaches a powerful lesson:
-👉 Security is not just about adding features (like 2FA), but implementing them correctly.
+👉 Security is not just about adding features (like 2FA), but implementing them correctly there would be no place for a flaw.
 
 Even strong protections become useless if the logic behind them is flawed.
